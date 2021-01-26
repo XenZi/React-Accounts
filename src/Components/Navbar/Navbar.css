@@ -1,0 +1,11 @@
+.active {
+    border-bottom: 1px solid #ddd;
+    color: tomato !important;
+}
+.navbar-brand {
+    color: black !important;
+    border-bottom: none;
+}
+.disabled {
+    pointer-events: none;
+}
