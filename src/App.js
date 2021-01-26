@@ -7,20 +7,6 @@ import EditAccount from './Components/EditAccount/EditAccount';
 class App extends Component {
     state = {
         accounts: [
-            {
-                id: 0,
-                name: "Marko",
-                lastname: "Aleksic",
-                phone: "111-11",
-                email: "markoaleksic@lawoffice.com"
-            },
-            {
-                id: 1,
-                name: "Jovan",
-                lastname: "Milovanovic",
-                phone: "111-11",
-                email: "milovanovicjovan@lawoffice.com"
-            }
         ],
         account : {
             id: "",
@@ -30,8 +16,18 @@ class App extends Component {
             email: ""
         }
     }
+    componentDidMount() {
+        let arr = [];
+        if(localStorage.arr) {
+            arr = JSON.parse(localStorage.arr)
+        }
+        this.setState({
+            accounts: arr
+        })
+    }
     addIntoAccounts = (account) => {
         let copyAccounts = [...this.state.accounts, account];
+        localStorage.arr = JSON.stringify([...this.state.accounts, account]);
         this.setState({
             accounts: copyAccounts
         });
@@ -49,6 +45,7 @@ class App extends Component {
                 email: acc.email
             }
         }));
+        localStorage.arr = JSON.stringify([...this.state.accounts]);
     }
     getAccount = (acc) => {
         let index = 0;
@@ -63,9 +60,22 @@ class App extends Component {
         this.setState(({
             accounts: copyAccounts
         }));
+        localStorage.arr = JSON.stringify([...this.state.accounts, acc]);
     }
-    getId = () => {
-        console.log("ID");
+    getId = (id) => {
+        let index = 0;
+        for(let i=0;i<this.state.accounts.length;i++) {
+            if(this.state.accounts[i].id === id) {
+                index = i;
+            }
+        }
+        let copyAccounts = this.state.accounts.splice(index, 1);
+        copyAccounts = [...this.state.accounts];
+        copyAccounts.sort((a,b) => a.id - b.id);
+        this.setState(({
+            accounts: copyAccounts
+        }));
+        localStorage.arr = JSON.stringify([...this.state.accounts]);
     }
     render() {
         return (
@@ -73,7 +83,7 @@ class App extends Component {
                 <div className="container-fluid">
                     <Navbar />
                     <Route path="/" exact>
-                        <Accounts showAccounts = {this.state.accounts} getDetails = {this.getDetails}  />
+                        <Accounts showAccounts = {this.state.accounts} getDetails = {this.getDetails}  getId = {this.getId} />
                     </Route>
                     <Route path="/add">
                         <AddAccount showAccounts = {this.state.accounts} addIntoAccounts = {this.addIntoAccounts}/>

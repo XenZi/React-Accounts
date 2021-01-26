@@ -3,12 +3,12 @@ import { useHistory } from 'react-router-dom';
 
 const Account = ({account,getDetails, getId}) => {
     let history = useHistory();
-    const passData = (id) => {
+    const passData = () => {
         getDetails(account.id);
         redirect();
     }
-    const removeAcc = (id) => {
-        console.log(getId);
+    const removeAcc = () => {
+        getId(account.id);
     }
     const redirect = () => {
         history.push("/edit");

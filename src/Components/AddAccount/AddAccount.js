@@ -32,7 +32,10 @@ class AddAccount extends Component {
         this.props.history.push("/");
     }
     getLastId = () => {
-        const account = this.props.showAccounts[this.props.showAccounts.length - 1].id + 1;
+        let account = 0;
+        if(this.props.showAccounts.length !== 0) {
+            account = this.props.showAccounts[this.props.showAccounts.length - 1].id + 1;
+        }
         this.setState(({
             newAccount : {
                 id: account,
